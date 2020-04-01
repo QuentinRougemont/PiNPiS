@@ -1,6 +1,8 @@
 # PiNPiS
 computation of piN/piS for WGS/GBS data
 
+This was used in this [paper](https://www.biorxiv.org/content/10.1101/732750v3) looking at expansion load in coho salmon 
+
 # Purpose
 Computing PiN/PiS ratio from WGS/GBS data.
 
