@@ -1,20 +1,31 @@
 # TL - 011219
 # QR - 021219
 
+#vcf2fasta and computation of PiNPiS
+
+#required arguments: rawvcf, vcfheader, prefix for pop name
+if [ $# -ne 3 ]; then
+    echo "USAGE: $rawvcf vcfheader prefix"
+    echo "Expecting the following values on the command line, in that order"
+    echo "rawvcf    = name of the vcf cds file containing all pos for all genes, without header"
+    echo "vcfheader = the header from the previous vcf"
+    echo "prefix    = prefix name for the pop to be process"
+    exit 1
+else
+    rawvcf=$1   #name of best model (either SC2N2mG or IM2N2mG  for now)
+    vcfheader=$2       #value of P parameter in dadi
+    prefix=$3       #value of Q parameter in dadi
+    echo "rawvcf is $rawvcf"
+    echo "vcfheader is $vcfheader"
+    echo "prefix is $Q"
+fi
+
 #DEFINE GLOBAL VARIABLE
 file_path="$(pwd)" #path to cwd
-
-rawvcf=$1           #vcf cds file #without vcf header
 rawvcf=${file_path}/$rawvcf
-
-vcfheader=$2        #path to header #uncompressed vcfheader  #contain name of individuals
 vcfheader=${file_path}/$vcfheader
-
 vcffile="$rawvcf".reproj.clean.withheader
-
-prefix=$3          #name of the pop
 outputdirscaffolds="$prefix"_v3_fastafiles
-
 outprefix="$prefix"_v3_withoutquantiles
 
 #here check that the input file are provided
@@ -35,7 +46,6 @@ then
     echo "Error: need population name prefix"
     exit
 fi
-
 
 # define file & directory names (full path)
 gfffile=$($file_path/gff/gff)
