@@ -86,7 +86,7 @@ for line in GFFfile:
 			else:
 				end[0]=end[0]-phase[0]
 				
-			fasta = open(Gene+".fst", "w")
+			fasta = open(str(Gene)+".fst", "w")
 			
 			fp = open(sys.argv[1])
 			if Region == "CDS":
