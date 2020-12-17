@@ -1,0 +1,25 @@
+#!/bin/bash                                  
+
+if [ $# -ne 2 ]; then
+    echo "Usage: $(basename $0) <vcf> <chrlist>" >&2
+    echo "vcf : vcf file"
+    echo "    NOTE: must be an outpout from gatk, contain all site with flag indicating lowQ variants/samples"
+    echo "chrlist : list of chromosome on which to run separate instance of gatk"
+    exit 1
+else
+        #Using values from the command line
+        vcf=$1        #name of the bam one by individual
+        echo "vcf file is = $bam"
+        chr=$2
+        echo "chromosome list is = $chr"
+fi
+
+head -n 10000 $vcf |grep "^#" > header
+
+for i in $(cat $chrlist ) ; do 
+    grep "^$i" $vcf > $i.tmp
+    cat header $i.tmp >${vcf%.vcf}.$i.vcf
+done
+
+rm *tmp
+
