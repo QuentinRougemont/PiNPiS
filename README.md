@@ -32,6 +32,8 @@ where:
 * vcf is the vcf file (comressed or not)
 * chrlist is the list of chromosome
 
+This save time when converting vcf into fasta by running several instance of the same script in parallel for each chromosome
+
 2. convert into fasta:  
 ```02_vcf2fasta.sh <vcf> <min_qual> <min_cov> <max_cov> ```
 
@@ -40,6 +42,9 @@ where:
 * min_qual is the minimum quality (20 or 30)
 * min_cov is the minimum coverage of a site
 * max_cov is the max coverage of a site
+
+This steps takes several hours when processing a whole genome. Splitting by chromosome and running in parallel greatly reduce computing time.  
+The memory requirement of this step can be around 80Go.
 
 3. (recompress the vcf to save space)  
 ```/00_scripts/scripts_wgs/03.compress.sh``` 
@@ -51,6 +56,14 @@ where:
 
 5. Extract the cds from all fasta and compute the pnps and gc3 value for each cds: 
 ```./00_scripts/scripts_wgs/05_vcf2fasta_to_CDSstats.sh <gff>```
+
+As previously computing this by chromosome will greatly decrease run time.  
+Depending on the dataset size up to 20Go of memory are necessarry
+
+6. Summarize and plot the results
+TO DO
+
+
 
 
 ## procedure for GBS/RADseq data
