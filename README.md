@@ -1,21 +1,22 @@
 # PiNPiS
-computation of piN/piS for WGS/GBS data
+computation of $\pi$N/$\pi$S for WGS/GBS data
 
 This was used in this [paper](https://www.biorxiv.org/content/10.1101/732750v3) looking at expansion load in coho salmon 
 
 # Purpose
-Computing PiN/PiS ratio from WGS/GBS data.
+Computing $\pi$N/$\pi$S ratio from Whole Genome data and eventually RAD sequencing data of high quality.
 
 # Input file: 
-* compressed vcf file obtained after running [GATK](https://gatk.broadinstitute.org/hc/en-us) it must include variant and invariant sites for all genes.  
+* compressed vcf file obtained after running [GATK](https://gatk.broadinstitute.org/hc/en-us) it must include variants and invariants sites for all genes (option --all-site in gatk).  
 For instance I used a modification of this [pipline](https://github.com/QuentinRougemont/gatk_haplotype)  
-sequencing data falling into the genes can be interescted with [bedtools](https://bedtools.readthedocs.io/en/latest/content/tools/intersect.html) intersect fonction for instance.
+For RADseq, the sequencing data falling into the genes can be intersected with [bedtools](https://bedtools.readthedocs.io/en/latest/content/tools/intersect.html) intersect fonction for instance.
+
 * gff file for the studied species
 
 # Dependencies
 
 * python2
-* Designed for linux
+* Linux
 
 # Running :
 
