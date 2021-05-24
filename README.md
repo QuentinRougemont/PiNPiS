@@ -69,7 +69,12 @@ TO DO
 
 
 ## procedure for GBS/RADseq data
-2. run ***./00.scripts/01.script_lanceur_vcf2fasta_to_CDSfasta_arg.sh input.cds.vcf vcfheader pop***
+1. run: 
+```00_scripts/scripts_for_RAD/00.script_split_vcf.sh ``` 
+to split the vcf by chromosome
+
+2. run :  
+```./00_scripts/scripts_for_RDA/01.script_lanceur_vcf2fasta_to_CDSfasta_arg.sh input.cds.vcf vcfheader pop ```
 where :
 * `input.cds.vcf` is the input vcf file containing gene only (without header)
 * `vcfheader` : the vcf header
