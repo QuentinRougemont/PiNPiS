@@ -17,10 +17,20 @@ fi
 
 head -n 10000 $vcf |grep "^#" > header
 
-for i in $(cat $chr ) ; do 
-    grep "^$i" $vcf > $i.tmp
-    cat header $i.tmp >${vcf%.vcf}.$i.vcf
-done
+#check compression
+if file --mime-type "$vcf" | grep -q gzip$; then
+   echo "$vcf is gzipped"
+   for i in $(cat $chr ) ; do 
+      zcat $vcf |grep "^$i"  > $i.tmp
+      cat header $i.tmp >${vcf%.vcf.gz}.$i.vcf
+   done
+else
+   echo "$vcf is not gzipped"
+   for i in $(cat $chr ) ; do 
+      grep "^$i" $vcf > $i.tmp
+      cat header $i.tmp >${vcf%.vcf}.$i.vcf
+   done
+fi
 
 rm *tmp
 

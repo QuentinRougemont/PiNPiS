@@ -12,12 +12,12 @@ fi
 #zcat $gff |awk '!seen[$1,$4,$5]++' > gfffile #remove some shit if needed
 
 #check compression
-if file --mime-type "$vcf" | grep -q gzip$; then
-  echo "$vcf is gzipped"
+if file --mime-type "$gff" | grep -q gzip$; then
+  echo "$gff is gzipped"
 else
   echo "$gff is not gzipped"
   echo "will compress with gzip"
-  gzip "$vcf"
+  gzip "$gff"
   gff=$( echo "$gff".gz )
   echo "compression is done"
 fi

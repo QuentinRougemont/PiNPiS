@@ -23,8 +23,37 @@ For RADseq, the sequencing data falling into the genes can be intersected with [
 
 # Running :
 
-1. first split the vcf file with ***./00.scripts/00.script_split_vcf.sh input_file.vcf.gz***
-the scripts will need to be modified depending on the species genome
+## procedure for Whole Genome data  
+
+1. first split the vcf file by chromosome :
+```./00_scripts/scripts_wgs/01.extract <vcf> <chrlist>```
+
+where:
+* vcf is the vcf file (comressed or not)
+* chrlist is the list of chromosome
+
+2. convert into fasta:  
+```02_vcf2fasta.sh <vcf> <min_qual> <min_cov> <max_cov> ```
+
+where:  
+* vcf is the vcf splitted by chromosome
+* min_qual is the minimum quality (20 or 30)
+* min_cov is the minimum coverage of a site
+* max_cov is the max coverage of a site
+
+3. (recompress the vcf to save space)  
+```/00_scripts/scripts_wgs/03.compress.sh``` 
+
+4. extract the cdsID from the gff: 
+```./00_scripts/scripts_wgs/04_prepare_gff.sh <gff>``` 
+
+/!\ warning:  make sure that each CDS has a unique ID in column 9 of the GFF.
+
+5. Extract the cds from all fasta and compute the pnps and gc3 value for each cds: 
+```./00_scripts/scripts_wgs/05_vcf2fasta_to_CDSstats.sh <gff>```
+
+
+## procedure for GBS/RADseq data
 2. run ***./00.scripts/01.script_lanceur_vcf2fasta_to_CDSfasta_arg.sh input.cds.vcf vcfheader pop***
 where :
 * `input.cds.vcf` is the input vcf file containing gene only (without header)
