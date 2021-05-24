@@ -12,14 +12,25 @@ if [ $# -ne 4 ]; then
     exit 1
 else
     #Using values from the command line
-    vcf=$1        #name of the bam one by individual
+    vcf=$1        #name of the vcf filr
     min_qual=$2
     min_cov=$3
     max_cov=$4
     echo "vcf file is = $vcf"
 fi
 
-file=$vcf 
+
+#check compression
+if file --mime-type "$vcf" | grep -q gzip$; then
+   echo "$vcf is gzipped"
+   gunzip "$vcf"
+   file=${vcf%}.gz
+else
+   echo "$vcf is not gzipped"
+   file=$vcf 
+fi
+
+
 outputdir="OUTPUT" 
 echo "file is" $file
 echo "output file to:" $outputdir

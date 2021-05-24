@@ -23,7 +23,7 @@ fi
 cd $outputdirCDS
 
 while read line; do 
-	python2 ../01_scripts/cutSeqGff.py $outputdirscaffolds/$line.fst $gfffile $line CDS; 
+    python2 ../01_scripts/cutSeqGff.py $outputdirscaffolds/$line.fst $gfffile $line CDS; 
 done < $gfffile.scaffIDwithCDS
 cd ..
 

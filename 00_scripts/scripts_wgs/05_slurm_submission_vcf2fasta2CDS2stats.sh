@@ -11,5 +11,7 @@
 # Move to directory where job was submitted
 cd $SLURM_SUBMIT_DIR
 
+#script for cluster
 
-./00_scripts/scripts_wgs/05_vcf2fasta_to_CDSstats.sh
+gff=$1 #gff file 
+./00_scripts/scripts_wgs/05_vcf2fasta_to_CDSstats.sh "$gff"
