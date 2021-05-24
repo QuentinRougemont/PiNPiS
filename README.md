@@ -1,14 +1,13 @@
 # PiNPiS
 
-computation of $\frac{$\pi$_{N}}{$\pi$_{S}}$  for Whole Genome data
+computation of 	&pi;N /	&pi;S for Whole Genome data
 
-$\pi$
 
 
 This was used in this [paper](https://www.biorxiv.org/content/10.1101/732750v3) looking at expansion load in coho salmon
 
 # Purpose
-Computing $\pi$N/$\pi$S ratio from Whole Genome data and eventually RAD sequencing data of high quality.
+Computing 	&pi;N /	&pi;S ratio from Whole Genome data and eventually RAD sequencing data of high quality.
 
 # Input file:
 * compressed vcf file obtained after running [GATK](https://gatk.broadinstitute.org/hc/en-us) it must include variants and invariants sites for all genes (option --all-site in gatk).  
