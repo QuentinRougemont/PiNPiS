@@ -11,12 +11,12 @@ if [ $# -ne 4 ]; then
     echo "NOTE: must be an outpout from gatk, must contain all sites with flag indicating lowQ variants/samples"
     exit 1
 else
-        #Using values from the command line
-        vcf=$1        #name of the bam one by individual
-	min_qual=$2
-	min_cov=$3
-	max_cov=$4
-        echo "vcf file is = $vcf"
+    #Using values from the command line
+    vcf=$1        #name of the bam one by individual
+    min_qual=$2
+    min_cov=$3
+    max_cov=$4
+    echo "vcf file is = $vcf"
 fi
 
 file=$vcf 
