@@ -23,7 +23,7 @@ For RADseq, the sequencing data falling into the genes can be intersected with [
 
 # Running :
 
-## procedure for Whole Genome data  
+## Procedure for Whole Genome data  
 
 1. first split the vcf file by chromosome :
 ```./00_scripts/scripts_wgs/01.extract <vcf> <chrlist>```
@@ -47,20 +47,22 @@ This steps takes several hours when processing a whole genome. Splitting by chro
 The memory requirement of this step can be around 80Go.
 
 3. (recompress the vcf to save space)  
+ 
 ```/00_scripts/scripts_wgs/03.compress.sh``` 
 
-4. extract the cdsID from the gff: 
+4. extract the cdsID from the gff:  
+ 
 ```./00_scripts/scripts_wgs/04_prepare_gff.sh <gff>``` 
 
 /!\ warning:  make sure that each CDS has a unique ID in column 9 of the GFF.
 
 5. Extract the cds from all fasta and compute the pnps and gc3 value for each cds: 
-```./00_scripts/scripts_wgs/05_vcf2fasta_to_CDSstats.sh <gff>```
+```./00_scripts/scripts_wgs/05_vcf2fasta_to_CDSstats.sh <gff>```  
 
 As previously computing this by chromosome will greatly decrease run time.  
 Depending on the dataset size up to 20Go of memory are necessarry
 
-6. Summarize and plot the results
+6. Summarize and plot the results:  
 TO DO
 
 
