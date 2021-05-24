@@ -11,7 +11,8 @@ fi
 
 gunzip $inputvcf.gz
 
-#split according to scaffold name of the coho
+#split according to scaffold name of the Coho
+#this have to be changed depending on you reference genome and coordinates:
 sed '/NC_034177\.1	75276997/q' $inputvcf > $inputvcf.part1
 sed -n '/NC_034177\.1	75276997/,/NC_034182\.1	5580203/p' $inputvcf | sed '1d' > $inputvcf.part2
 sed -n '/NC_034182\.1	5580203/,/NC_034186\.1	58514866/p' $inputvcf |  sed '1d' > $inputvcf.part3

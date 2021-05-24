@@ -2,19 +2,21 @@
 # QR - 021219
 
 #vcf2fasta and computation of PiNPiS
+#Only good for RADseq with sufficient quality, coverage, etc.
+#use at your onw risks
 
 #required arguments: rawvcf, vcfheader, prefix for pop name
 if [ $# -ne 3 ]; then
-    echo "USAGE: $rawvcf vcfheader prefix"
+    echo "USAGE: rawvcf vcfheader prefix"
     echo "Expecting the following values on the command line, in that order"
     echo "rawvcf    = name of the vcf cds file containing all pos for all genes, without header"
     echo "vcfheader = the header from the previous vcf"
     echo "prefix    = prefix name for the pop to be process"
     exit 1
 else
-    rawvcf=$1   #name of best model (either SC2N2mG or IM2N2mG  for now)
-    vcfheader=$2       #value of P parameter in dadi
-    prefix=$3       #value of Q parameter in dadi
+    rawvcf=$1       #name of the vcf
+    vcfheader=$2    #header of the vcf
+    prefix=$3       #a prefix such as the population name
     echo "rawvcf is $rawvcf"
     echo "vcfheader is $vcfheader"
     echo "prefix is $Q"
@@ -52,12 +54,12 @@ gfffile=$($file_path/gff/gff)
 cutoffcovmin=$(echo "3") # note that this is an absolute cutoff and can be adjusted for each individual to higher values based on the distrib of coverage over the genome
 
 # generate input files
-python2 ${file_path}/00.scripts/reproj_vcf.py ${file_path}/vcf_genes/GCF_002021735.1_Okis_V1_genomic.gff.sed.withoutheader.gene.filtered.agp2_part1 $rawvcf.part1
-python2 ${file_path}/00.scripts/reproj_vcf.py ${file_path}/vcf_genes/GCF_002021735.1_Okis_V1_genomic.gff.sed.withoutheader.gene.filtered.agp2_part2 $rawvcf.part2
-python2 ${file_path}/00.scripts/reproj_vcf.py ${file_path}/vcf_genes/GCF_002021735.1_Okis_V1_genomic.gff.sed.withoutheader.gene.filtered.agp2_part3 $rawvcf.part3
-python2 ${file_path}/00.scripts/reproj_vcf.py ${file_path}/vcf_genes/GCF_002021735.1_Okis_V1_genomic.gff.sed.withoutheader.gene.filtered.agp2_part4 $rawvcf.part4
-python2 ${file_path}/00.scripts/reproj_vcf.py ${file_path}/vcf_genes/GCF_002021735.1_Okis_V1_genomic.gff.sed.withoutheader.gene.filtered.agp2_part5 $rawvcf.part5
-python2 ${file_path}/00.scripts/reproj_vcf.py ${file_path}/vcf_genes/GCF_002021735.1_Okis_V1_genomic.gff.sed.withoutheader.gene.filtered.agp2_part6 $rawvcf.part6
+python2 ${file_path}/00_scripts/scripts_for_RAD//reproj_vcf.py ${file_path}/vcf_genes/GCF_002021735.1_Okis_V1_genomic.gff.sed.withoutheader.gene.filtered.agp2_part1 $rawvcf.part1
+python2 ${file_path}/00_scripts/scripts_for_RAD//reproj_vcf.py ${file_path}/vcf_genes/GCF_002021735.1_Okis_V1_genomic.gff.sed.withoutheader.gene.filtered.agp2_part2 $rawvcf.part2
+python2 ${file_path}/00_scripts/scripts_for_RAD//reproj_vcf.py ${file_path}/vcf_genes/GCF_002021735.1_Okis_V1_genomic.gff.sed.withoutheader.gene.filtered.agp2_part3 $rawvcf.part3
+python2 ${file_path}/00_scripts/scripts_for_RAD//reproj_vcf.py ${file_path}/vcf_genes/GCF_002021735.1_Okis_V1_genomic.gff.sed.withoutheader.gene.filtered.agp2_part4 $rawvcf.part4
+python2 ${file_path}/00_scripts/scripts_for_RAD//reproj_vcf.py ${file_path}/vcf_genes/GCF_002021735.1_Okis_V1_genomic.gff.sed.withoutheader.gene.filtered.agp2_part5 $rawvcf.part5
+python2 ${file_path}/00_scripts/scripts_for_RAD//reproj_vcf.py ${file_path}/vcf_genes/GCF_002021735.1_Okis_V1_genomic.gff.sed.withoutheader.gene.filtered.agp2_part6 $rawvcf.part6
 
 cat $rawvcf.part1.reproj $rawvcf.part2.reproj $rawvcf.part3.reproj $rawvcf.part4.reproj $rawvcf.part5.reproj $rawvcf.part6.reproj > $rawvcf.reproj
 
@@ -73,7 +75,7 @@ else
 fi
 
 cd $outputdirscaffolds
-python ${file_path}/00.scripts/VCF2Fasta_fast_CohoRADseqVersion.py -m $cutoffcovmin -f $vcffile > Outputs_VCF2Fasta.txt
+python ${file_path}/00_scripts/scripts_for_RAD/VCF2Fasta_fast_CohoRADseqVersion.py -m $cutoffcovmin -f $vcffile > Outputs_VCF2Fasta.txt
 cd ..
 
 ### GET FASTA ON CDS
@@ -86,7 +88,7 @@ else
     mkdir "$outputdirCDS"
 fi
 cd $outputdirCDS
-while read line; do python ${file_path}/00.scripts/scutSeqGff.py $outputdirscaffolds/$line.fst $gfffile $line CDS; done < $gfffile.scaffIDwithCDS
+while read line; do python ${file_path}/00_scripts/cutSeqGff.py $outputdirscaffolds/$line.fst $gfffile $line CDS; done < $gfffile.scaffIDwithCDS
 for i in *.fst; do 
     missing=$(grep -e "^$" $i | wc -l) # lines withoutinfo
     #echo "$missing"
@@ -106,7 +108,7 @@ cd ..
 ls $outputdirCDS/ | grep ".fst" > $outprefix.list_CDS.txt
 cd $outputdirCDS
 # remove last codon
-${file_path}/00.scripts/removeLastStopCodon -seq ../$outprefix.list_CDS.txt -f fasta -code univ
+${file_path}/00_scripts/removeLastStopCodon -seq ../$outprefix.list_CDS.txt -f fasta -code univ
 cd ..
 
 cd $outputdirCDS
@@ -128,7 +130,7 @@ cd ..
 ls $outputdirCDS/ | grep ".fst.clean.fst" > $outprefix.list_CDS.txt
 ## clean alignments
 cd $outputdirCDS
-${file_path}/00.scripts/cleanAlignment -seq ../$outprefix.list_CDS.txt -f fasta -n 4
+${file_path}/00_scripts/cleanAlignment -seq ../$outprefix.list_CDS.txt -f fasta -n 4
 cd ..
 
 cd $outputdirCDS
@@ -150,7 +152,7 @@ cd ..
 ls $outputdirCDS/ | grep ".fst.clean.fst.clean.fst" > $outprefix.list_CDS.txt
 ## compute summary statistics (-tstv = transition transervision ratio here fixed to 2 but can be set to another value)
 cd $outputdirCDS
-${file_path}/00.scripts/seq_stat_coding -seq ../$outprefix.list_CDS.txt -f fasta -tstv 2 -code univ -o ../$outprefix.CDS.sumstats > ../$outprefix.CDS.sumstats.info
+${file_path}/00_scripts/seq_stat_coding -seq ../$outprefix.list_CDS.txt -f fasta -tstv 2 -code univ -o ../$outprefix.CDS.sumstats > ../$outprefix.CDS.sumstats.info
 cd ..
 
 # keep info of genes without premature stop codons
@@ -170,11 +172,15 @@ else
      mkdir "$outputdirprot"
 fi
 
+exit 
+
+### The line below may not be appropriate for RADseq
+
 # parse sequences containing 4 fold codons only
 cd $outputdirCDS
 rm ../$outprefix.list_CDS.4fold
 while read line; do
-    python ${file_path}/00.scripts/script_python_sequencecodons4folddegenerateonly.py $line $line
+    python ${file_path}/00_scripts/script_python_sequencecodons4folddegenerateonly.py $line $line
     mv $line.sites4foldonly $outputdir4fold/
     mv $line.prot $outputdirprot/
     echo "$outputdir4fold/$line.sites4foldonly" >> ../$outprefix.list_CDS.4fold # generate a list
@@ -182,11 +188,11 @@ done < ../$outprefix.list_CDS.txt
 
 # clean alignments
 cd $outputdir4fold
-${file_path}/00.scripts//cleanAlignment -seq ../$outprefix.list_CDS.4fold -f fasta -n 4
+${file_path}/00_scripts/cleanAlignment -seq ../$outprefix.list_CDS.4fold -f fasta -n 4
 ls $outputdir4fold/ | grep ".sites4foldonly.clean.fst" > ../$outprefix.list_CDS.4fold
 
 # compute GC3s
-${file_path}/00.scripts/seq_stat_coding -seq ../$outprefix.list_CDS.4fold -f fasta -tstv 2 -code univ -o ../$outprefix.4fold.CDS.sumstats
+${file_path}/00_scripts/seq_stat_coding -seq ../$outprefix.list_CDS.4fold -f fasta -tstv 2 -code univ -o ../$outprefix.4fold.CDS.sumstats
 cd ..
 awk '{print $1"	"$2"	"$3"	"$11}' $outprefix.4fold.CDS.sumstats | sed 's/GC3/GC3s/g' > $outprefix.4fold.CDS.sumstats.GC3s
 ### merge pnps datasets & GC3s [require to exclude GC3s for seq with premature stop codons]
