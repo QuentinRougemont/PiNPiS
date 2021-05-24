@@ -69,9 +69,13 @@ TO DO
 
 
 ## procedure for GBS/RADseq data
+
+/!\ warning: this procedure was customized to work on Coho salmon on a previous draft reference genome. 
+Adjustement are needed to work on other data. 
+
 1. run: 
 ```00_scripts/scripts_for_RAD/00.script_split_vcf.sh ``` 
-to split the vcf by chromosome
+to split the vcf into chunks
 
 2. run :  
 ```./00_scripts/scripts_for_RDA/01.script_lanceur_vcf2fasta_to_CDSfasta_arg.sh input.cds.vcf vcfheader pop ```
@@ -79,3 +83,10 @@ where :
 * `input.cds.vcf` is the input vcf file containing gene only (without header)
 * `vcfheader` : the vcf header
 * `pop` : a name for the population
+
+as you'll see the gff were modified with some reprojection as seen here: 
+```python2 ${file_path}/00_scripts/scripts_for_RAD//reproj_vcf.py ${file_path}/vcf_genes/GCF_002021735.1_Okis_V1_genomic.gff.sed.withoutheader.gene.filtered.agp2_part1 ```
+
+overall this pipeline for GBS certainly needs several customizations
+
+
