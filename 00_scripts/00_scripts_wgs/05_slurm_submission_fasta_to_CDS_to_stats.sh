@@ -14,4 +14,4 @@ cd $SLURM_SUBMIT_DIR
 #script for cluster
 
 gff=$1 #gff file 
-./00_scripts/scripts_wgs/05_vcf2fasta_to_CDSstats.sh "$gff"
+./00_scripts/scripts_wgs/05_fasta_to_CDS_to_stats.sh "$gff"
