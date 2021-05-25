@@ -26,7 +26,7 @@ For RADseq, the sequencing data falling into the genes can be intersected with [
 ## Procedure for Whole Genome data  
 
 1. first split the vcf file by chromosome :
-```./00_scripts/scripts_wgs/01.extract <vcf> <chrlist>```
+```./00_scripts/00_scripts_wgs/01.extract <vcf> <chrlist>```
 
 where:
 * vcf is the vcf file (comressed or not)
@@ -35,7 +35,7 @@ where:
 This save time when converting vcf into fasta by running several instance of the same script in parallel for each chromosome
 
 2. convert into fasta:  
-```02_vcf2fasta.sh <vcf> <min_qual> <min_cov> <max_cov> ```
+```./00_scripts/00_scripts_wgs/02_vcf2fasta.sh <vcf> <min_qual> <min_cov> <max_cov> ```
 
 where:  
 * vcf is the vcf splitted by chromosome
@@ -48,21 +48,26 @@ The memory requirement of this step can be around 80Go.
 
 3. (recompress the vcf to save space)  
  
-```/00_scripts/scripts_wgs/03.compress.sh``` 
+```/00_scripts/00_scripts_wgs/03.compress.sh``` 
 
 4. extract the cdsID from the gff:  
  
-```./00_scripts/scripts_wgs/04_prepare_gff.sh <gff>``` 
+```./00_scripts/00_scripts_wgs/04_prepare_gff.sh <gff>``` 
 
 /!\ warning:  make sure that each CDS has a unique ID in column 9 of the GFF.
 
 5. Extract the cds from all fasta and compute the pnps and gc3 value for each cds: 
-```./00_scripts/scripts_wgs/05_vcf2fasta_to_CDSstats.sh <gff>```  
+```./00_scripts/00_scripts_wgs/05_vcf2fasta_to_CDSstats.sh <gff>```  
 
 As previously computing this by chromosome will greatly decrease run time.  
 Depending on the dataset size up to 20Go of memory are necessarry
 
 6. Summarize and plot the results:  
+#see:
+```00_scripts/01_scripts_summarise/00_script_generate_piNpiS.sh```  
+
+#other scripts will arrive soon
+
 TO DO
 
 
