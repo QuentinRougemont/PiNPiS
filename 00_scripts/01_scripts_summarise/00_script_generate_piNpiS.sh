@@ -5,7 +5,7 @@
 if [ $# -ne 1 ]; then 
     echo "Usage: $(basename $0) <myfile>" >&2 
     echo "myfile: pnps file"
-    echo "obtained after running cds2stats.sh" 
+    echo "obtained after running 05_fasta_to_CDS_to_stats.sh"
     exit 1 
 else 
         myfile=$1  #name of the file 

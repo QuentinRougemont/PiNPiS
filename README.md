@@ -57,7 +57,10 @@ The memory requirement of this step can be around 80Go.
 /!\ warning:  make sure that each CDS has a unique ID in column 9 of the GFF.
 
 5. Extract the cds from all fasta and compute the pnps and gc3 value for each cds: 
-```./00_scripts/00_scripts_wgs/05_vcf2fasta_to_CDSstats.sh <gff>```  
+```./00_scripts/00_scripts_wgs/05_fasta_to_CDS_to_stats.sh <gff>```  
+
+Note: there is also an exemple script to run this part on a cluster (see ```00_scripts/00_scripts_wgs/05_slurm_submission_fasta_to_CDS_to_stats.sh ```)  
+It can be easily modify to run the previous step on a cluster as well
 
 As previously computing this by chromosome will greatly decrease run time.  
 Depending on the dataset size up to 20Go of memory are necessarry
