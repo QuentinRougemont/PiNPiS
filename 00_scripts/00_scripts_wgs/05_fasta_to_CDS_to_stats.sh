@@ -23,7 +23,7 @@ fi
 cd $outputdirCDS
 
 while read line; do 
-    python2 ../01_scripts/cutSeqGff.py $outputdirscaffolds/$line.fst $gfffile $line CDS; 
+    python2 ../00_scripts/cutSeqGff.py $outputdirscaffolds/$line.fst $gfffile $line CDS; 
 done < $gfffile.scaffIDwithCDS
 cd ..
 
@@ -48,7 +48,7 @@ ls $outputdirCDS/ | grep ".fst" > $outprefix.list_CDS.txt
 cd $outputdirCDS
 ## remove last codon
 echo "removing last codon"
-../01_scripts/removeLastStopCodon -seq ../$outprefix.list_CDS.txt -f fasta -code univ
+../00_scripts/removeLastStopCodon -seq ../$outprefix.list_CDS.txt -f fasta -code univ
 cd ..
 
 ## generate a new list with processed alignments
@@ -56,7 +56,7 @@ ls $outputdirCDS/ | grep ".fst.clean.fst" > $outprefix.list_CDS.txt
 ## clean alignments
 cd $outputdirCDS
 echo  "cleaning alignment now"
-../01_scripts/cleanAlignment -seq ../$outprefix.list_CDS.txt -f fasta -n 4
+../00_scripts/cleanAlignment -seq ../$outprefix.list_CDS.txt -f fasta -n 4
 cd ..
 
 ## generate a new list with processed alignments
@@ -64,7 +64,7 @@ ls $outputdirCDS/ | grep ".fst.clean.fst.clean.fst" > $outprefix.list_CDS.txt
 ## compute summary statistics (-tstv = transition transervision ratio here fixed to 2 but can be set to another value)
 echo "COMPUTING SUMMARY STATISTICS"
 cd $outputdirCDS
-../01_scripts/seq_stat_coding -seq ../$outprefix.list_CDS.txt -f fasta -tstv 2 -code univ -o ../$outprefix.CDS.sumstats > ../$outprefix.CDS.sumstats.info
+../00_scripts/seq_stat_coding -seq ../$outprefix.list_CDS.txt -f fasta -tstv 2 -code univ -o ../$outprefix.CDS.sumstats > ../$outprefix.CDS.sumstats.info
 cd ..
 
 
@@ -89,7 +89,7 @@ fi
 cd $outputdirCDS
 rm ../$outprefix.list_CDS.4fold
 while read line; do
-    python2 ../01_scripts/script_python_sequencecodons4folddegenerateonly.py $line $line
+    python2 ../00_scripts/script_python_sequencecodons4folddegenerateonly.py $line $line
     mv $line.sites4foldonly $outputdir4fold/
     mv $line.prot $outputdirprot/
     echo "$outputdir4fold/$line.sites4foldonly" >> ../$outprefix.list_CDS.4fold # generate a list
@@ -97,11 +97,11 @@ done < ../$outprefix.list_CDS.txt
 
 # clean alignments
 cd $outputdir4fold
-../01_scripts/cleanAlignment -seq ../$outprefix.list_CDS.4fold -f fasta -n 4
+../00_scripts/cleanAlignment -seq ../$outprefix.list_CDS.4fold -f fasta -n 4
 ls $outputdir4fold/ | grep ".sites4foldonly.clean.fst" > ../$outprefix.list_CDS.4fold
 
 # compute GC3s
-../01_scripts/seq_stat_coding -seq ../$outprefix.list_CDS.4fold -f fasta -tstv 2 -code univ -o ../$outprefix.4fold.CDS.sumstats
+../00_scripts/seq_stat_coding -seq ../$outprefix.list_CDS.4fold -f fasta -tstv 2 -code univ -o ../$outprefix.4fold.CDS.sumstats
 cd ..
 awk '{print $1" "$2"    "$3"	"$11}' $outprefix.4fold.CDS.sumstats | sed 's/GC3/GC3s/g' > $outprefix.4fold.CDS.sumstats.GC3s
 
