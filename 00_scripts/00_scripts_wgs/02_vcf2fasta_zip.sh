@@ -1,9 +1,6 @@
 #!/bin/bash                            
 
 #Date: 24-01-2021
-## Function for Colosse super computer only
-##source /clumeq/bin/enable_cc_cvmfs    
-##source /rap/ihv-653-ab/quentin/01.laben/DemographicInference/temp/bin/activate
 
 if [ $# -ne 4 ]; then
     echo "Usage: $(basename $0) <vcf> <min_qual> <min_cov> <max_cov> " >&2
@@ -23,11 +20,11 @@ fi
 #check compression
 if file --mime-type "$vcf" | grep -q gzip$; then
    echo "$vcf is gzipped"
-   gunzip "$vcf"
-   file=${vcf%}.gz
+   file=${vcf}
 else
    echo "$vcf is not gzipped"
-   file=$vcf 
+   bgzip $vcf 
+   file="$vcf".gz 
 fi
 
 
