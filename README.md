@@ -20,12 +20,13 @@ For RADseq, the sequencing data falling into the genes can be intersected with [
 
 * python2
 * Linux
+* BPP
 
-# Running :
+# Running the analyse :
 
 ## Procedure for Whole Genome data  
 
-1. first split the vcf file by chromosome :
+### 1. first split the vcf file by chromosome :
 ```./00_scripts/00_scripts_wgs/01.extract.sh <vcf> <chrlist>```
 
 where:
@@ -34,14 +35,14 @@ where:
 
 This save time when converting vcf into fasta by running several instance of the same script in parallel for each chromosome
 
-## Note: the same results can be achieved (probably faster) with bcftools :  
+#### Note: the same results can be achieved (probably faster) with bcftools :  
 something like this should work:
 
 ```for chr in $(cat list_of_chromosome.txt ) ; do bcftools view --regions $chr -Oz -o $chr.vcf.gz your.vcf.gz ; done``` 
 
 this requires a compressed and indexed vcf
 
-2. convert into fasta:  
+### 2. convert into fasta:  
 ```./00_scripts/00_scripts_wgs/02_vcf2fasta.sh <vcf> <min_qual> <min_cov> <max_cov> ```
 
 where:  
@@ -53,17 +54,17 @@ where:
 This steps takes several hours when processing a whole genome. Splitting by chromosome and running in parallel greatly reduce computing time.  
 The memory requirement of this step can be around 80Go.
 
-3. (recompress the vcf to save space)  
+### 3. (recompress the vcf to save space)  
  
 ```/00_scripts/00_scripts_wgs/03.compress.sh``` 
 
-4. extract the cdsID from the gff:  
+### 4. extract the cdsID from the gff:  
  
 ```./00_scripts/00_scripts_wgs/04_prepare_gff.sh <gff>``` 
 
 /!\ warning:  make sure that each CDS has a unique ID in column 9 of the GFF.
 
-5. Extract the cds from all fasta and compute the pnps and gc3 value for each cds: 
+### 5. Extract the cds from all fasta and compute the pnps and gc3 value for each cds: 
 ```./00_scripts/00_scripts_wgs/05_fasta_to_CDS_to_stats.sh <gff>```  
 
 Note: there is also an exemple script to run this part on a cluster (see ```00_scripts/00_scripts_wgs/05_slurm_submission_fasta_to_CDS_to_stats.sh ```)  
@@ -72,7 +73,7 @@ It can be easily modify to run the previous step on a cluster as well
 As previously computing this by chromosome will greatly decrease run time.  
 Depending on the dataset size up to 20Go of memory are necessarry
 
-6. Summarize and plot the results:  
+### 6. Summarize and plot the results:  
 #see:
 ```00_scripts/01_scripts_summarise/00_script_generate_piNpiS.sh```  
 
@@ -81,9 +82,8 @@ Depending on the dataset size up to 20Go of memory are necessarry
 TO DO
 
 
-
-## ------------- DEPRECATED --------------- ##
 ## procedure for GBS/RADseq data
+## ------------- DEPRECATED --------------- ##
 
 # WARNINGS: 
 /!\ UNLESS you have very polymorphic species with many SNPs in the genes I would not recommend tihs anymore 
