@@ -1,5 +1,7 @@
 #!/bin/bash                                  
 
+#note: bcftools can do the same, probably faster. 
+
 if [ $# -ne 2 ]; then
     echo "Usage: $(basename $0) <vcf> <chrlist>" >&2
     echo "purpose: extract each chromosome from a vcf file"

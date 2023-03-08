@@ -26,13 +26,20 @@ For RADseq, the sequencing data falling into the genes can be intersected with [
 ## Procedure for Whole Genome data  
 
 1. first split the vcf file by chromosome :
-```./00_scripts/00_scripts_wgs/01.extract <vcf> <chrlist>```
+```./00_scripts/00_scripts_wgs/01.extract.sh <vcf> <chrlist>```
 
 where:
 * vcf is the vcf file (comressed or not)
 * chrlist is the list of chromosome
 
 This save time when converting vcf into fasta by running several instance of the same script in parallel for each chromosome
+
+## Note: the same results can be achieved (probably faster) with bcftools :  
+something like this should work:
+
+```for chr in $(cat list_of_chromosome.txt ) ; do bcftools view --regions $chr -Oz -o $chr.vcf.gz your.vcf.gz ; done``` 
+
+this requires a compressed and indexed vcf
 
 2. convert into fasta:  
 ```./00_scripts/00_scripts_wgs/02_vcf2fasta.sh <vcf> <min_qual> <min_cov> <max_cov> ```
@@ -75,9 +82,11 @@ TO DO
 
 
 
-
+## ------------- DEPRECATED --------------- ##
 ## procedure for GBS/RADseq data
 
+# WARNINGS: 
+/!\ UNLESS you have very polymorphic species with many SNPs in the genes I would not recommend tihs anymore 
 /!\ warning: this procedure was customized to work on Coho salmon on a previous draft reference genome. 
 Adjustement are needed to work on other data. 
 
