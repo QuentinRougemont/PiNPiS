@@ -11,7 +11,7 @@ Computing 	&pi;N /	&pi;S ratio from Whole Genome data and eventually RAD sequenc
 
 # Input file:
 * compressed vcf file obtained after running [GATK](https://gatk.broadinstitute.org/hc/en-us) it must include variants and invariants sites for all genes (option --all-site in gatk).  
-For instance I used a modification of this [pipline](https://github.com/QuentinRougemont/gatk_haplotype)  
+For instance I used a modification of this [pipeline](https://github.com/QuentinRougemont/gatk_haplotype)  
 For RADseq, the sequencing data falling into the genes can be intersected with [bedtools](https://bedtools.readthedocs.io/en/latest/content/tools/intersect.html) intersect fonction for instance.
 
 * gff file for the studied species
@@ -20,7 +20,7 @@ For RADseq, the sequencing data falling into the genes can be intersected with [
 
 * python2
 * Linux
-* BPP
+* BPP available [here](https://github.com/BioPP/bpp-documentation/wiki/Installation)
 
 # Running the analyse :
 
